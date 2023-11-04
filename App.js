@@ -1,15 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import CustomText from './src/components/CustomText';
-import Tettt from './src/components/Tettt';
+import { StatusBar } from "expo-status-bar";
+import * as SplashScreen from "expo-splash-screen";
+import AppNavigator from "./src/routes/AppNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import { AuthProvider } from "./src/lib/hooks/useAuth";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-slate-300">
-      <Text className="text-red-500 font-bold text-lg" >This is Bingo! App</Text>
-      
+    <NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+      <AuthProvider>
+        <AppNavigator />
+      </AuthProvider>
+    </NavigationContainer>
   );
 }
 
+// ios: 267109392898-gv35n3knvsiomhdl53n0lh1jjdk5pebv.apps.googleusercontent.com
+// android: 267109392898-8ul7abiio1395l0ga2e52bgp435o8r5g.apps.googleusercontent.com
