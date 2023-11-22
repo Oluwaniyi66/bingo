@@ -10,8 +10,8 @@ import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 
 const CustomInput = ({
-  placeholder = "Input Text here",
   label = "Input",
+  placeholder = `Input ${label}`,
   value,
   onChangeText,
   error,

@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from "react";
+import Dashboard from "../screens/collector/Dashboard";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { SCREENS } from "./screens";
+
+const Stack = createNativeStackNavigator();
 
 const CollectorNavigator = () => {
   return (
-    <View>
-      <Text>CollectorNavigator</Text>
-    </View>
-  )
-}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerBackButtonMenuEnabled: true,
+      }}
+    >
+      <Stack.Screen name={SCREENS.CustomerDashboard} component={Dashboard} />
+    </Stack.Navigator>
+  );
+};
 
-export default CollectorNavigator
-
-const styles = StyleSheet.create({})
+export default CollectorNavigator;

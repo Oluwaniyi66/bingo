@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Dashboard from "../screens/customer/Dashboard";
+import { SCREENS } from "./screens";
+
+const Stack = createNativeStackNavigator();
 
 const CustomerNavigator = () => {
   return (
-    <View>
-      <Text>CustomerNavigator</Text>
-    </View>
-  )
-}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerBackButtonMenuEnabled: true,
+      }}
+    >
+      <Stack.Screen name={SCREENS.CustomerDashboard} component={Dashboard} />
+    </Stack.Navigator>
+  );
+};
 
-export default CustomerNavigator
-
-const styles = StyleSheet.create({})
+export default CustomerNavigator;
