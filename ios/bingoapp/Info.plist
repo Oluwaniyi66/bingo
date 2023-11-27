@@ -33,6 +33,13 @@
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>NSCameraUsageDescription</key>
+	<string>Bingo requires the use of your camera. Enabling Camera allows you take pictures for waste images and descriptions</string>
+    <key>NSMicrophoneUsageDescription</key>
+	<string>Bingo might require the use of your Microphone. Enabling Microphone allows you trecord video</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Bingo Requires Face Id access. Enabling Face ID allows you quick and secure access to your account.</string>
+	
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>

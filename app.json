@@ -14,7 +14,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bingo.app"
+      "bundleIdentifier": "com.bingo.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -32,9 +35,28 @@
         "expo-image-picker",
         {
           "photosPermission": "Bingo requires access to your photos to help personalize your account",
-          "cameraPermission": "Bingo requires access to your camera to help personalize your account"
+          "cameraPermission": "Bingo requires access to your camera to help personalize your account",
+          "microphonePermission": "Bingo might require access to your camera to help personalize your account"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera so you can upload images"
         }
       ]
-    ]
+    ],
+    "permissions": {
+      "camera": {
+        "settings": {
+          "ios": {
+            "requiresCameraPermission": true
+          }
+        }
+      },
+      "mediaLibrary": {
+        "writeonly": true
+      }
+    }
   }
 }

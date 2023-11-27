@@ -20,32 +20,34 @@ import { storage } from "../../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import LoadingComponent from "../../components/loaders/LoadingComponent";
 import { AntDesign } from "@expo/vector-icons";
+import { scale } from "react-native-size-scaling";
+import { responsiveFontSize } from "react-native-responsive-dimensions";
 
 const ProfileUpdateModalScreen = ({ navigation }) => {
   const { user } = useAuth();
-  const [userType, setUserType] = useState("");
+  const [userType, setUserType] = useState(user?.profile?.userType || "");
   const [isLoading, setIsLoading] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [image, setImage] = useState(null);
   const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
+    firstName: user?.profile?.firstName || "",
+    lastName: user?.profile?.lastName || "",
+    phoneNumber: user?.profile?.phoneNumber || "",
     emailAddress: user?.email || "",
-    userType: "",
+    userType: user?.profile?.userType || "",
     companyDetails: {
-      companyName: "",
-      companyAddress: "",
-      numberOfTrucks: "",
-      state: "",
-      country: "",
+      companyName: user?.profile?.companyDetails?.companyName || "",
+      companyAddress: user?.profile?.companyDetails?.companyAddress || "",
+      numberOfTrucks: user?.profile?.companyDetails?.numberOfTrucks || "",
+      state: user?.profile?.companyDetails?.state || "",
+      country: user?.profile?.companyDetails?.country || "",
     },
     userDetails: {
-      address: "",
-      state: "",
-      country: "",
+      address: user?.profile?.userDetails?.address || "",
+      state: user?.profile?.userDetails?.state || "",
+      country: user?.profile?.userDetails?.country || "",
     },
-    imageUrl: "",
+    imageUrl: user?.profile?.imageUrl || "",
   });
   const [formErrors, setFormErrors] = useState({});
 
@@ -248,21 +250,40 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
   }, [formValues.imageUrl]);
 
   return (
-    <View className="flex-1  px-4 bg-green-50">
+    <View className="flex-1  px-4 bg-green-50 pt-6">
       {imageLoading && (
         <View style={styles.loadingBlock}>
           <LoadingComponent text="Uploading..." isLoading={imageLoading} />
         </View>
       )}
-      <View className="mt-6">
-        <Text className="text-xl font-semibold text-center text-green-950">
-          Welcome,
-        </Text>
-        <Text className="text-xl font-semibold text-center my-2 text-green-950">
-          "{user?.displayName || user?.email}"
-        </Text>
-      </View>
-      <Text className=" font-semibold mt-4 mb-4">Complete Your Profile</Text>
+      {user?.profile?.imageUrl ? (
+        <View className="items-center justify-center mt-3">
+          <Image
+            source={{
+              uri: formValues?.imageUrl,
+            }}
+            style={{ width: 100, height: 100, borderRadius: 100 }}
+          />
+        </View>
+      ) : (
+        <View className="mt-6">
+          <Text
+            className=" font-semibold text-center text-green-950"
+            style={{ fontSize: responsiveFontSize(2.5) }}
+          >
+            Welcome,
+          </Text>
+          <Text
+            className="text-xl font-semibold text-center my-2 text-green-950"
+            style={{ fontSize: responsiveFontSize(2.3) }}
+          >
+            "{user?.displayName || user?.email}"
+          </Text>
+        </View>
+      )}
+      {!user?.profile?.imageUrl && (
+        <Text className="font-semibold mt-4 mb-4">Complete Your Profile</Text>
+      )}
       <KeyboardAwareScrollView className="flex-1  px-4 bg-green-50">
         <View>
           <CustomInput
@@ -300,26 +321,26 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
           <View className="my-5 flex-row justify-around items-center">
             <TouchableOpacity
               style={
-                formValues.userType === "user"
+                formValues.userType === "customer"
                   ? styles.selectedBlock
                   : styles.usageBlock
               }
-              onPress={() => handleInputChange("userType", "user")}
+              onPress={() => handleInputChange("userType", "customer")}
             >
               <Ionicons
                 name="person"
                 size={30}
-                color={formValues.userType === "user" ? "white" : "#052e16"}
+                color={formValues.userType === "customer" ? "white" : "#052e16"}
               />
 
               <Text
                 className={`mt-3 ${
-                  formValues.userType === "user"
+                  formValues.userType === "customer"
                     ? "text-white"
                     : "text-green-950"
                 }`}
               >
-                USER
+                CUSTOMER
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -349,7 +370,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View className="h-1 bg-green-950 rounded-md my-3" />
-          {formValues.userType === "user" && (
+          {formValues.userType === "customer" && (
             <View>
               <CustomInput
                 label="Home Address"
@@ -426,7 +447,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             <View className="items-center justify-center">
               <Image
                 source={{
-                  uri: image.uri,
+                  uri: image?.uri,
                 }}
                 style={styles.image}
               />
@@ -436,7 +457,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             <TouchableOpacity className="mt-5 border-green-950 border-2 rounded-xl">
               <FlatBtn
                 title={
-                  formValues.userType === "user"
+                  formValues.userType === "customer"
                     ? "Upload Profile Image"
                     : "Upload Company Logo"
                 }

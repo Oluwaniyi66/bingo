@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Platform } from "react-native";
 import React from "react";
 import useAuth from "../lib/hooks/useAuth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -8,6 +8,8 @@ import WelcomeInScreen from "../screens/shared/WelcomeInScreen";
 import ProfileUpdateModalScreen from "../screens/shared/ProfileUpdateModalScreen";
 import CustomerNavigator from "./CustomerNavigator";
 import CollectorNavigator from "./CollectorNavigator";
+import Settings from "../screens/shared/Settings";
+import Support from "../screens/shared/Support";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,17 +31,21 @@ const HomeNavigator = () => {
         name={SCREENS.ProfileUpdateModal}
         component={ProfileUpdateModalScreen}
         options={{
-          presentation: "modal",
+          presentation: Platform.OS === "ios" ? "formSheet" : "modal",
+          // animation: "flip",
         }}
       />
       <Stack.Screen
         name={SCREENS.stacks.Customer}
         component={CustomerNavigator}
+        
       />
       <Stack.Screen
         name={SCREENS.stacks.Collector}
         component={CollectorNavigator}
       />
+      <Stack.Screen name={SCREENS.Settings} component={Settings} />
+      <Stack.Screen name={SCREENS.Support} component={Support} />
     </Stack.Navigator>
   );
 };

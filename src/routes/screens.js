@@ -11,4 +11,9 @@ export const SCREENS = {
   CollectorDashboard: "Collector_dashboard",
   WelcomeInScreen: "Welcome_in_screen",
   ProfileUpdateModal: "Update_profile_modal",
+  CustomerRequest: "Customer_request",
+  CustomerViewRequests: "Customer_view_requests",
+  CustomerTracking: "Customer_tracking",
+  Support: "Support",
+  Settings: "Settings",
 };

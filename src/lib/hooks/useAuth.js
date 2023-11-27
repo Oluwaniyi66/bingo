@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
     androidClientId:
       "267109392898-8ul7abiio1395l0ga2e52bgp435o8r5g.apps.googleusercontent.com",
     iosClientId:
-      "267109392898-gv35n3knvsiomhdl53n0lh1jjdk5pebv.apps.google.googleusercontent.com",
+      "267109392898-gv35n3knvsiomhdl53n0lh1jjdk5pebv.apps.googleusercontent.com",
   });
 
   useEffect(() => {

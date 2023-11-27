@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { ActivityIndicator } from "react-native";
+import { responsiveFontSize } from "react-native-responsive-dimensions";
 
 const FlatBtn = ({
   icon,
@@ -10,6 +11,7 @@ const FlatBtn = ({
   isLoading,
   disabled,
   textColor = "white",
+  textStyles,
 }) => {
   return (
     <TouchableOpacity
@@ -25,7 +27,11 @@ const FlatBtn = ({
       ) : (
         <Text
           className="text-xl text-white font-semibold "
-          style={{ color: textColor }}
+          style={{
+            color: textColor,
+            fontSize: responsiveFontSize(2),
+            ...textStyles,
+          }}
         >
           {title}
         </Text>
