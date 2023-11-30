@@ -71,15 +71,15 @@ const Dashboard = ({ navigation }) => {
           />
         </View>
         <View className="flex-row justify-between items-center my-2">
-          <TouchItem
+          {/* <TouchItem
             left
             title="Tracking"
             bg="bg-sky-300"
             textColor="text-sky-950"
             onPress={() => navigation.navigate(SCREENS.CustomerTracking)}
-          />
+          /> */}
           <TouchItem
-            right
+            fullWidth
             title="Support"
             bg="bg-rose-300"
             textColor="text-rose-950"

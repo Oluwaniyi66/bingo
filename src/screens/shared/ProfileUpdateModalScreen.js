@@ -1,6 +1,5 @@
 import {
   Alert,
-  Dimensions,
   Image,
   StyleSheet,
   Text,
@@ -11,7 +10,12 @@ import React, { useEffect, useState } from "react";
 import CustomInput from "../../components/inputs/CustomInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons, Fontisto } from "@expo/vector-icons";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../lib/utils";
+import {
+  SCREEN_WIDTH,
+  isAndroid,
+  moderateScale,
+  verticalScale,
+} from "../../lib/utils";
 import FlatBtn from "../../components/button/FlatBtn";
 import { setDocument } from "../../api/apiService";
 import { SCREENS } from "../../routes/screens";
@@ -20,8 +24,8 @@ import { storage } from "../../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import LoadingComponent from "../../components/loaders/LoadingComponent";
 import { AntDesign } from "@expo/vector-icons";
-import { scale } from "react-native-size-scaling";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const ProfileUpdateModalScreen = ({ navigation }) => {
   const { user } = useAuth();
@@ -250,14 +254,21 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
   }, [formValues.imageUrl]);
 
   return (
-    <View className="flex-1  px-4 bg-green-50 pt-6">
+    <View className="flex-1  px-4 bg-green-50 ">
+      <TouchableOpacity
+        className="  bg-red-100 items-center justify-center p-3 rounded-b-lg"
+        onPress={() => navigation.goBack()}
+        style={{ paddingTop: isAndroid && verticalScale(50) }}
+      >
+        <MaterialIcons name="cancel" size={moderateScale(30)} color="#ef4444" />
+      </TouchableOpacity>
       {imageLoading && (
         <View style={styles.loadingBlock}>
           <LoadingComponent text="Uploading..." isLoading={imageLoading} />
         </View>
       )}
       {user?.profile?.imageUrl ? (
-        <View className="items-center justify-center mt-3">
+        <View className="items-center justify-center mt-4">
           <Image
             source={{
               uri: formValues?.imageUrl,
@@ -329,7 +340,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             >
               <Ionicons
                 name="person"
-                size={30}
+                size={moderateScale(29)}
                 color={formValues.userType === "customer" ? "white" : "#052e16"}
               />
 
@@ -339,6 +350,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
                     ? "text-white"
                     : "text-green-950"
                 }`}
+                style={{ fontSize: moderateScale(15) }}
               >
                 CUSTOMER
               </Text>
@@ -353,7 +365,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             >
               <Fontisto
                 name="truck"
-                size={30}
+                size={moderateScale(29)}
                 color={
                   formValues.userType === "collector" ? "white" : "#052e16"
                 }
@@ -364,6 +376,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
                     ? "text-white"
                     : "text-green-950"
                 }`}
+                style={{ fontSize: moderateScale(15) }}
               >
                 COLLECTOR
               </Text>
@@ -474,7 +487,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
           {formValues.userType && (
             <View className="mt-5">
               <FlatBtn
-                title="Submit"
+                title="Update Profile"
                 onPress={onSubmit}
                 isLoading={isLoading}
               />

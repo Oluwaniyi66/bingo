@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { moderateScale } from "../../lib/utils";
 
 const CustomInput = ({
   label = "Input",
@@ -25,12 +26,12 @@ const CustomInput = ({
     <View className="my-3">
       <Text
         className="font-medium text-base text-green-950 mb-2"
-        style={{ fontSize: responsiveFontSize(1.9) }}
+        style={{ fontSize: moderateScale(15) }}
       >
         {label}
       </Text>
       <TextInput
-        className=" h-14 border border-green-700 px-4"
+        className="h-14 border border-green-700 px-4"
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
@@ -61,8 +62,8 @@ export default CustomInput;
 
 const styles = StyleSheet.create({
   input: {
-    borderRadius: 8,
-    fontSize: responsiveFontSize(1.8),
+    borderRadius: moderateScale(8),
+    fontSize: moderateScale(16),
     backgroundColor: "#fff",
   },
 });

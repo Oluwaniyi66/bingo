@@ -7,6 +7,7 @@ import {
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { moderateScale, verticalScale } from "../../lib/utils";
 
 const PageHeader = ({ title = "Page Title", backPress }) => {
   const navigation = useNavigation();
@@ -21,19 +22,19 @@ const PageHeader = ({ title = "Page Title", backPress }) => {
 
   return (
     <View
-      className="bg-green-900 h-32 pt-20 px-5 flex-row items-center "
-      style={{ height: responsiveHeight(15.3) }}
+      className="bg-green-900 h-32 px-5 flex-row items-center "
+      style={{ height: verticalScale(125), paddingTop: verticalScale(70) }}
     >
       <TouchableOpacity onPress={onBackPress}>
         <Ionicons
           name="chevron-back-circle-outline"
-          size={responsiveFontSize(5)}
+          size={moderateScale(45)}
           color="white"
         />
       </TouchableOpacity>
       <Text
         className="text-white font-semibold ml-5"
-        style={{ fontSize: responsiveFontSize(3) }}
+        style={{ fontSize: moderateScale(24) }}
       >
         {title}
       </Text>

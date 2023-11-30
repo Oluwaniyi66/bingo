@@ -15,6 +15,7 @@ import useAuth from "../../lib/hooks/useAuth";
 import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import CustomInput from "../../components/inputs/CustomInput";
+import { serverTimestamp } from "firebase/firestore";
 
 const RequestPickup = ({ navigation }) => {
   const [wasteTypes, setWasteTypes] = useState([]);
@@ -181,6 +182,7 @@ const RequestPickup = ({ navigation }) => {
         images,
         profile: user.profile,
         user: user.uid,
+        created_on: serverTimestamp(),
       })
         .then((res) => {
           Alert.alert(

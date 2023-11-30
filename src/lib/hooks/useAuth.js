@@ -110,6 +110,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
   const signUpWithEmailAndPassword = async (email, password) => {
     setLoading(true);
     try {

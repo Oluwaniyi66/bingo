@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { responsiveHeight } from "react-native-responsive-dimensions";
+import { moderateScale, verticalScale } from "../../lib/utils";
 
 const TouchItem = ({
   bg = "",
@@ -34,6 +35,7 @@ const TouchItem = ({
         className={`text-lg font-semibold ${
           textColor ? textColor : "text-green-950"
         } text-center`}
+        style={{ fontSize: moderateScale(18) }}
       >
         {title}
       </Text>
@@ -45,6 +47,6 @@ export default TouchItem;
 
 const styles = StyleSheet.create({
   container: {
-    height: responsiveHeight(24),
+    height: verticalScale(190),
   },
 });

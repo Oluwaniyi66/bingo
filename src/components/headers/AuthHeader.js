@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import * as Animatable from "react-native-animatable";
+import { moderateScale } from "../../lib/utils";
 
 const AuthHeader = ({ title = "Page" }) => {
   return (
@@ -12,6 +13,7 @@ const AuthHeader = ({ title = "Page" }) => {
       <Animatable.Text
         className="text-white text-3xl font-extrabold"
         animation="slideInLeft"
+        style={{ fontSize: moderateScale(30) }}
       >
         {title}
       </Animatable.Text>
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     borderColor: "#f1f1f1",
   },
   container: {
-    borderBottomEndRadius: 15,
-    borderBottomStartRadius: 15,
+    borderBottomEndRadius: moderateScale(18),
+    borderBottomStartRadius: moderateScale(18),
   },
 });

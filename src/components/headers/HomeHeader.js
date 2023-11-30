@@ -18,6 +18,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from "react-native-responsive-dimensions";
+import { moderateScale, verticalScale } from "../../lib/utils";
 
 export function getGreeting() {
   const currentHour = new Date().getHours();
@@ -52,7 +53,7 @@ const HomeHeader = ({ showLogoutAlert }) => {
   return (
     <View
       className="h-44 bg-green-900 w-full rounded-br-full"
-      style={{ height: responsiveHeight(20) }}
+      style={{ height: verticalScale(175) }}
     >
       <StatusBar style="light" />
       <SafeAreaView className="flex-1 px-6 pt-8 flex-row items-center">
@@ -69,19 +70,19 @@ const HomeHeader = ({ showLogoutAlert }) => {
         <View>
           <Text
             className="text-white text-lg font-semibold"
-            style={{ fontSize: responsiveFontSize(2) }}
+            style={{ fontSize: moderateScale(16) }}
           >
             {getGreeting()},
           </Text>
           <Text
             className="text-white text-xl font-bold"
-            style={{ fontSize: responsiveFontSize(2.5) }}
+            style={{ fontSize: moderateScale(20) }}
           >
             {user?.profile?.firstName} {user?.profile?.lastName}
           </Text>
           <Text
             className="text-white text-sm font-light mt-2"
-            style={{ fontSize: responsiveFontSize(1.5) }}
+            style={{ fontSize: moderateScale(12) }}
           >
             {formattedDate}
           </Text>
@@ -92,7 +93,7 @@ const HomeHeader = ({ showLogoutAlert }) => {
           onPress={showLogoutAlert}
           className="absolute right-2 bottom-1 bg-transparent"
         >
-          <AntDesign name="logout" size={32} color="#450a0a" />
+          <AntDesign name="logout" size={moderateScale(32)} color="#450a0a" />
         </TouchableOpacity>
       </View>
     </View>
@@ -103,8 +104,8 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   image: {
-    width: responsiveWidth(20),
-    height: responsiveWidth(20),
-    borderRadius: responsiveWidth(20),
+    width: moderateScale(75),
+    height: moderateScale(75),
+    borderRadius: moderateScale(75),
   },
 });

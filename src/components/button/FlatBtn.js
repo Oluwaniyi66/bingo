@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { ActivityIndicator } from "react-native";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
+import { moderateScale } from "../../lib/utils";
 
 const FlatBtn = ({
   icon,
@@ -29,7 +30,7 @@ const FlatBtn = ({
           className="text-xl text-white font-semibold "
           style={{
             color: textColor,
-            fontSize: responsiveFontSize(2),
+            fontSize: moderateScale(16),
             ...textStyles,
           }}
         >
