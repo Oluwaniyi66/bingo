@@ -273,7 +273,12 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             source={{
               uri: formValues?.imageUrl,
             }}
-            style={{ width: 100, height: 100, borderRadius: 100 }}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 100,
+              backgroundColor: "#f1f1f1",
+            }}
           />
         </View>
       ) : (

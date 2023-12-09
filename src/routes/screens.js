@@ -14,6 +14,9 @@ export const SCREENS = {
   CustomerRequest: "Customer_request",
   CustomerViewRequests: "Customer_view_requests",
   CustomerTracking: "Customer_tracking",
+  CollectorRequest: "Collector_request",
+  CollectorViewRequests: "Collector_view_requests",
+  CollectorTracking: "Collector_tracking",
   Support: "Support",
   Settings: "Settings",
 };

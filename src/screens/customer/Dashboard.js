@@ -11,6 +11,7 @@ import React, { useEffect } from "react";
 import { SCREENS } from "../../routes/screens";
 import HomeHeader from "../../components/headers/HomeHeader";
 import TouchItem from "../../components/clickables/TouchItem";
+import useAuth from "../../lib/hooks/useAuth";
 
 const Dashboard = ({ navigation }) => {
   const { user, logout } = useAuth();

@@ -36,6 +36,7 @@ const HomeHeader = ({ showLogoutAlert }) => {
   const { user } = useAuth();
   const currentDate = new Date();
   const navigation = useNavigation();
+  const isCollector = user?.profile?.userType === "collector";
 
   // Format options for date and time
   const dateOptions = {
@@ -74,12 +75,21 @@ const HomeHeader = ({ showLogoutAlert }) => {
           >
             {getGreeting()},
           </Text>
-          <Text
-            className="text-white text-xl font-bold"
-            style={{ fontSize: moderateScale(20) }}
-          >
-            {user?.profile?.firstName} {user?.profile?.lastName}
-          </Text>
+          {isCollector ? (
+            <Text
+              className="text-white text-xl font-bold"
+              style={{ fontSize: moderateScale(20) }}
+            >
+              {user?.profile?.companyDetails?.companyName}
+            </Text>
+          ) : (
+            <Text
+              className="text-white text-xl font-bold"
+              style={{ fontSize: moderateScale(20) }}
+            >
+              {user?.profile?.firstName} {user?.profile?.lastName}
+            </Text>
+          )}
           <Text
             className="text-white text-sm font-light mt-2"
             style={{ fontSize: moderateScale(12) }}

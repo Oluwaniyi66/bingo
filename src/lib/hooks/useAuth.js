@@ -196,20 +196,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const memoValue = useMemo(
-    () => ({
-      user,
-      promptAsync,
-      error,
-      loading,
-      logout,
-      signUpWithEmailAndPassword,
-      signInUserWithEmailAndPassword,
-      forgotPassword,
-      updateProfile,
-    }),
-    [user, loading, error]
-  );
+  // const memoValue = useMemo(
+  //   () => ({
+  //     user,
+  //     promptAsync,
+  //     error,
+  //     loading,
+  //     logout,
+  //     signUpWithEmailAndPassword,
+  //     signInUserWithEmailAndPassword,
+  //     forgotPassword,
+  //     updateProfile,
+  //   }),
+  //   [user, loading, error]
+  // );
 
   return (
     <AuthContext.Provider

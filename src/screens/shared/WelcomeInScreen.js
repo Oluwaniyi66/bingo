@@ -21,7 +21,6 @@ const WelcomeInScreen = ({ navigation }) => {
       (data) => {
         if (data) {
           // Handle the updated data
-          console.log("Document updated:", data);
           updateProfile(data);
           if (data.userType === "customer") {
             navigation.navigate(SCREENS.stacks.Customer);

@@ -208,13 +208,6 @@ const RequestPickup = ({ navigation }) => {
     }
   };
 
-  console.log("====================================");
-  console.log("IMAGES", selectedWasteType);
-  console.log("====================================");
-  console.log("====================================");
-  console.log("SEKECTED IMAGES", selectedImages);
-  console.log("====================================");
-
   return (
     <View className="flex-1">
       <PageHeader title="Request Pickup" />
