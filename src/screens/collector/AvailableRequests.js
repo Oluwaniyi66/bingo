@@ -17,6 +17,7 @@ import { SCREENS } from "../../routes/screens";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { horizontalScale, moderateScale } from "../../lib/utils";
 import moment from "moment";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AvailableRequests = ({ navigation }) => {
   const { user } = useAuth();
@@ -42,9 +43,9 @@ const AvailableRequests = ({ navigation }) => {
         setIsRefreshing(false);
       });
   };
-  useEffect(() => {
+  useFocusEffect(() => {
     getRequests();
-  }, []);
+  });
 
   const handleRefresh = () => {
     setIsRefreshing(true);

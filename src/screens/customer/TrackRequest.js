@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import PageHeader from "../../components/headers/PageHeader";
 import { horizontalScale, moderateScale, verticalScale } from "../../lib/utils";
 import moment from "moment";
+import { getDocuments } from "../../api/apiService";
+import LoadingComponent from "../../components/loaders/LoadingComponent";
 
 const TrackRequest = ({ navigation, route }) => {
   const { request = {} } = route?.params;
+  const [statusList, setStatusList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getStatusColor = (status) => {
     if (request.status === status) {
@@ -13,20 +17,35 @@ const TrackRequest = ({ navigation, route }) => {
     }
     return "#bdc3c7";
   };
+  const getStatuses = () => {
+    getDocuments("status")
+      .then((res) => {
+        setStatusList(res[0].status);
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log("ERROR", err);
+        console.log("====================================");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  useEffect(() => {
+    getStatuses();
+  }, []);
 
   const renderStatusLine = () => {
-    const statuses = [
+    const statuses = statusList || [
       "initiated",
       "accepted",
-      "on_the_way",
-      "arrived",
-      "trash_picked",
-      "completed",
+      "driver enroute",
+      "driver arrived",
+      "trash collected",
+      "request completed",
     ];
 
-    console.log("====================================");
-    console.log(request);
-    console.log("====================================");
+    const requestData = request?.requestData;
 
     return (
       <View>
@@ -50,16 +69,48 @@ const TrackRequest = ({ navigation, route }) => {
                   styles.statusText,
                   {
                     fontWeight: request.status === status ? "bold" : "normal",
+                    fontSize:
+                      request.status === status
+                        ? moderateScale(18)
+                        : moderateScale(14),
                     color: getStatusColor(status),
                   },
                 ]}
               >
                 {status}
               </Text>
+              {status === request.status && status === "accepted" && (
+                <Text
+                  className="text-green-800"
+                  style={{
+                    fontSize: moderateScale(11),
+                    marginLeft: horizontalScale(10),
+                  }}
+                >
+                  {moment(request?.status_updated_on?.toMillis()).format(
+                    "MMMM D, YYYY HH:mm"
+                  )}
+                </Text>
+              )}
+              {status === request.status &&
+                status !== "accepted" &&
+                status !== "initiated" && (
+                  <Text
+                    className="text-green-800"
+                    style={{
+                      fontSize: moderateScale(11),
+                      marginLeft: horizontalScale(10),
+                    }}
+                  >
+                    {moment(
+                      requestData?.acceptedBy.accepted_on.toMillis()
+                    ).format("MMMM D, YYYY HH:mm")}
+                  </Text>
+                )}
             </View>
           ))}
         </ScrollView>
-        <ScrollView className="px-5">
+        <ScrollView className="px-5 mb-80 pb-32">
           <View>
             <View
               activeOpacity={0.6}
@@ -111,6 +162,88 @@ const TrackRequest = ({ navigation, route }) => {
               </View>
             </View>
           </View>
+          {requestData && (
+            <View>
+              <Text
+                className="text-green-950 font-bold text-center my-4 underline underline-offset-4"
+                style={{ fontSize: moderateScale(20) }}
+              >
+                Collector Details
+              </Text>
+              <View>
+                <View className="flex-row justify-between my-2">
+                  <Text
+                    className="text-green-800 font-semibold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    Company Name:
+                  </Text>
+                  <Text
+                    className="text-green-950 font-bold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    {requestData?.acceptedBy.companyDetails.companyName}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between my-2">
+                  <Text
+                    className="text-green-800 font-semibold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    Company Address:
+                  </Text>
+                  <Text
+                    className="text-green-950 font-bold text-right"
+                    style={{ fontSize: moderateScale(16), width: "60%" }}
+                  >
+                    {requestData?.acceptedBy.companyDetails.companyAddress}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between my-2">
+                  <Text
+                    className="text-green-800 font-semibold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    State of Op:
+                  </Text>
+                  <Text
+                    className="text-green-950 font-bold text-right"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    {requestData?.acceptedBy.companyDetails.state}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between my-2">
+                  <Text
+                    className="text-green-800 font-semibold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    Company Phone:
+                  </Text>
+                  <Text
+                    className="text-green-950 font-bold text-right"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    {requestData?.acceptedBy.phoneNumber}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between my-2">
+                  <Text
+                    className="text-green-800 font-semibold"
+                    style={{ fontSize: moderateScale(16) }}
+                  >
+                    Company Email:
+                  </Text>
+                  <Text
+                    className="text-green-950 font-bold text-right"
+                    style={{ fontSize: moderateScale(16), width: "61%" }}
+                  >
+                    {requestData?.acceptedBy.emailAddress}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
         </ScrollView>
       </View>
     );
@@ -119,6 +252,7 @@ const TrackRequest = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <PageHeader title={request.type} />
+      <LoadingComponent isLoading={isLoading} />
       {renderStatusLine()}
       <ScrollView>
         <View></View>
@@ -136,8 +270,8 @@ const styles = StyleSheet.create({
   },
   statusContainer: {
     flexDirection: "row",
-    alignrequests: "center",
-    marginBottom: verticalScale(35),
+    alignItems: "center",
+    marginBottom: verticalScale(25),
   },
   statusDot: {
     width: horizontalScale(20),

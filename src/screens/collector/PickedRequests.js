@@ -17,6 +17,7 @@ import moment from "moment";
 import { SCREENS } from "../../routes/screens";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { horizontalScale, moderateScale } from "../../lib/utils";
+import { useFocusEffect } from "@react-navigation/native";
 
 const PickedRequests = ({ navigation }) => {
   const { user } = useAuth();
@@ -42,9 +43,10 @@ const PickedRequests = ({ navigation }) => {
         setIsRefreshing(false);
       });
   };
-  useEffect(() => {
+
+  useFocusEffect(() => {
     getRequests();
-  }, []);
+  });
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -74,7 +76,7 @@ const PickedRequests = ({ navigation }) => {
                     {item.type}
                   </Text>
                   <View className="flex-row justify-between items-center">
-                    <View className="my-2">
+                    <View className="my-2 w-1/3">
                       <Text style={styles.tags} className="text-green-950">
                         {item.weight} kg
                       </Text>
@@ -90,7 +92,7 @@ const PickedRequests = ({ navigation }) => {
                         {item.status}
                       </Text>
                     </View>
-                    <View className="items-center ">
+                    <View className="items-center w-1/3 ">
                       <Text style={styles.status} className="text-green-950">
                         {item?.profile?.firstName} {item?.profile?.lastName}
                       </Text>
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   tags: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(11),
   },
   status: {
     fontWeight: "600",

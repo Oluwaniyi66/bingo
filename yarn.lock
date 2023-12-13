@@ -6375,6 +6375,11 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-mail@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-mail/-/react-native-mail-6.1.1.tgz#f1b1f8034c84d2510a93e4a2a795f0db5a13595e"
+  integrity sha512-pTs180wwyh7hN/iyTC9SfOX579U4YhDlHOLxi47IGvhPJENqO/QFdBq+wWKxyhNqdQuVSy+LoeIxLreWnIeYmg==
+
 react-native-onboard@^2.5.13:
   version "2.5.13"
   resolved "https://registry.yarnpkg.com/react-native-onboard/-/react-native-onboard-2.5.13.tgz#3072f2b96f186a97f535a1feeb351aeec15c2cd3"

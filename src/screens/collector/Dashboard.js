@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import useAuth from "../../lib/hooks/useAuth";
 import HomeHeader from "../../components/headers/HomeHeader";

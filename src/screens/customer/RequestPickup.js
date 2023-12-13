@@ -74,6 +74,7 @@ const RequestPickup = ({ navigation }) => {
         console.log("====================================");
       });
   };
+
   const getWasteWeights = () => {
     getDocuments("weight-bands")
       .then((res) => {
@@ -92,6 +93,7 @@ const RequestPickup = ({ navigation }) => {
         console.log("====================================");
       });
   };
+
   useEffect(() => {
     getWasteTypes();
     getWasteSizes();

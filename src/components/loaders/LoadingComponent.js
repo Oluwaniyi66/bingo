@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the alpha value for transparency
-    zIndex: 10,
+    zIndex: 1110,
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
