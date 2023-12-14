@@ -28,7 +28,7 @@ const ViewRequests = ({ navigation }) => {
     getDocuments("requests")
       .then((res) => {
         const myRequests = res.filter((req) => {
-          return req.user === user.uid;
+          return req.user === (user.uid || user.id);
         });
         setRequests(myRequests);
       })

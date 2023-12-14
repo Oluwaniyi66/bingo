@@ -100,11 +100,16 @@ export const AuthProvider = ({ children }) => {
       const res = await fetch("https://www.googleapis.com/userinfo/v2/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("RES", res);
-      const user = await res.json();
-      await AsyncStorage.setItem("user", JSON.stringify(user));
-      setUser(user);
-      setLoading(false);
+      const userObj = await res.json();
+      console.log("RES", userObj);
+      if (userObj.name) {
+        await AsyncStorage.setItem("user", JSON.stringify(userObj));
+        setUser(userObj);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        Alert.alert("Error", "Something went wrong. please try again");
+      }
     } catch (err) {
       console.log(err);
       setLoading(false);

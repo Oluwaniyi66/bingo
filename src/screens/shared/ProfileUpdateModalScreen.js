@@ -176,7 +176,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
   const onSubmit = () => {
     if (validateForm()) {
       setIsLoading(true);
-      setDocument("users", user.uid, formValues)
+      setDocument("users", user.uid || user.id, formValues)
         .then((res) => {
           Alert.alert(
             "Success",
@@ -223,7 +223,7 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
         const blob = await response.blob();
 
         // Generate a unique filename
-        const filename = `${user.uid}_${new Date().getTime()}.jpg`;
+        const filename = `${user.uid || user.id}_${new Date().getTime()}.jpg`;
 
         // Reference to the storage location
         const storageRef = ref(storage, `profile_images/${filename}`);

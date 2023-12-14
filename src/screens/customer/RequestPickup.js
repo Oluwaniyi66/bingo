@@ -125,7 +125,9 @@ const RequestPickup = ({ navigation }) => {
             const blob = await response.blob();
 
             // Generate a unique filename
-            const filename = `${user.uid}_${new Date().getTime()}.jpg`;
+            const filename = `${
+              user.uid || user.id
+            }_${new Date().getTime()}.jpg`;
 
             // Reference to the storage location
             const storageRef = ref(storage, `request_images/${filename}`);
@@ -174,7 +176,7 @@ const RequestPickup = ({ navigation }) => {
   const onSubmit = () => {
     if (validateForm()) {
       setIsLoading(true);
-      const docId = `${user.uid}_${new Date().getTime()}`;
+      const docId = `${user.uid || user.id}_${new Date().getTime()}`;
       setDocument("requests", docId, {
         type: selectedWasteType,
         weight: selectedWasteWeight,
@@ -183,7 +185,7 @@ const RequestPickup = ({ navigation }) => {
         message,
         images,
         profile: user.profile,
-        user: user.uid,
+        user: user.uid || user.id,
         created_on: serverTimestamp(),
       })
         .then((res) => {

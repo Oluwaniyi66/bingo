@@ -15,14 +15,15 @@ const WelcomeInScreen = ({ navigation }) => {
   const [loadingText, setLoadingText] = useState("Welcome");
 
   useFocusEffect(() => {
+    console.log(user?.uid, user?.id);
     const unsubscribe = subscribeToDocumentSnapshot(
       "users",
-      user.uid,
+      user?.uid || user?.id,
       (data) => {
         if (data) {
           // Handle the updated data
           updateProfile(data);
-          if (data.userType === "customer") {
+          if (data?.userType === "customer") {
             navigation.navigate(SCREENS.stacks.Customer);
           } else {
             navigation.navigate(SCREENS.stacks.Collector);

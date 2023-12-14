@@ -69,7 +69,7 @@ const RequestInfoScreen = ({ route, navigation }) => {
       requestData: {
         acceptedBy: {
           ...user?.profile,
-          uid: user?.uid,
+          uid: user?.uid || user?.id,
           accepted_on: serverTimestamp(),
         },
       },

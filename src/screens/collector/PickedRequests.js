@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PageHeader from "../../components/headers/PageHeader";
 import useAuth from "../../lib/hooks/useAuth";
 import { getDocuments } from "../../api/apiService";
@@ -28,8 +28,9 @@ const PickedRequests = ({ navigation }) => {
   const getRequests = () => {
     getDocuments("requests")
       .then((res) => {
+        console.log("RES", res);
         const myRequests = res.filter((req) => {
-          return req?.requestData?.acceptedBy?.uid === user.uid;
+          return req?.requestData?.acceptedBy?.uid === (user.uid || user.id);
         });
         setRequests(myRequests);
       })
@@ -43,10 +44,14 @@ const PickedRequests = ({ navigation }) => {
         setIsRefreshing(false);
       });
   };
+  console.log(user);
 
-  useFocusEffect(() => {
-    getRequests();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      console.log("Focus gained. Calling getRequests...");
+      getRequests();
+    }, []) // Include getRequests in the dependencies array
+  );
 
   const handleRefresh = () => {
     setIsRefreshing(true);

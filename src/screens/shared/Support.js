@@ -28,9 +28,8 @@ const Support = () => {
       {
         subject: title,
         recipients: ["abolaoni@gmail.com"], // Add your email here
-        body: `<b>${concerns}</b>`,
-        // isHTML: false,
-        isHTML: true,
+        body: concerns,
+        isHTML: false,
       },
       (error, event) => {
         if (error) {
