@@ -1,13 +1,20 @@
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import useAuth from "../../lib/hooks/useAuth";
 import HomeHeader from "../../components/headers/HomeHeader";
 import { moderateScale, verticalScale } from "../../lib/utils";
 import TouchItem from "../../components/clickables/TouchItem";
 import { SCREENS } from "../../routes/screens";
+import { useFocusEffect } from "@react-navigation/native";
+import { getDocuments } from "../../api/apiService";
 
 const Dashboard = ({ navigation }) => {
   const { user, logout } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [tabs, setTabs] = useState({
+    pickups: 0,
+    completed: 0,
+  });
 
   const showLogoutAlert = () => {
     Alert.alert(
@@ -29,17 +36,55 @@ const Dashboard = ({ navigation }) => {
       { cancelable: false }
     );
   };
+
+  const getRequests = () => {
+    getDocuments("requests")
+      .then((res) => {
+        console.log("RES", res);
+        const myPickups = res.filter((req) => {
+          return (
+            req?.requestData?.acceptedBy?.uid === (user.uid || user.id) &&
+            req?.status !== "request completed"
+          );
+        });
+        const myCompleted = res.filter((req) => {
+          return (
+            req?.requestData?.acceptedBy?.uid === (user.uid || user.id) &&
+            req?.status === "request completed"
+          );
+        });
+        setTabs({
+          pickups: myCompleted.length + myPickups.length,
+          completed: myCompleted.length,
+        });
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log("ERROR", err);
+        console.log("====================================");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log("Focus gained. Calling getRequests...");
+      getRequests();
+    }, []) // Include getRequests in the dependencies array
+  );
   return (
     <View>
       <HomeHeader showLogoutAlert={showLogoutAlert} />
       <View className="mt-2 flex-row justify-between items-center px-6">
         <View style={styles.topCard}>
           <Text style={styles.cardHeadText}>No of Pickups</Text>
-          <Text style={styles.cardText}>5</Text>
+          <Text style={styles.cardText}>{tabs.pickups}</Text>
         </View>
         <View style={styles.topCard}>
-          <Text style={styles.cardHeadText}>Rating</Text>
-          <Text style={styles.cardText}>3.5 / 5</Text>
+          <Text style={styles.cardHeadText}>Completed</Text>
+          <Text style={styles.cardText}>{tabs.completed}</Text>
         </View>
       </View>
       <ScrollView className="mt-2 px-6 mb-72">
@@ -65,7 +110,7 @@ const Dashboard = ({ navigation }) => {
             title="Completed Requests"
             bg="bg-sky-300"
             textColor="text-sky-950"
-            onPress={() => navigation.navigate(SCREENS.CollectorViewRequests)}
+            onPress={() => navigation.navigate(SCREENS.CollectorCompleted)}
           />
           <TouchItem
             right

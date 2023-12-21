@@ -27,7 +27,7 @@ const Support = () => {
     Mailer.mail(
       {
         subject: title,
-        recipients: ["abolaoni@gmail.com"], // Add your email here
+        recipients: ["Oluwaniyiropo11@gmail.com"], // Add your email here
         body: concerns,
         isHTML: false,
       },

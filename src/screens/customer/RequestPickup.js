@@ -1,5 +1,5 @@
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PageHeader from "../../components/headers/PageHeader";
 import { getDocuments, setDocument } from "../../api/apiService";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -16,6 +16,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import CustomInput from "../../components/inputs/CustomInput";
 import { serverTimestamp } from "firebase/firestore";
+import { calculatePrice, haversine } from "../../lib/utils";
+import { Paystack } from "react-native-paystack-webview";
 
 const RequestPickup = ({ navigation }) => {
   const [wasteTypes, setWasteTypes] = useState([]);
@@ -34,6 +36,8 @@ const RequestPickup = ({ navigation }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [formErrors, setFormErrors] = useState({});
   const { user } = useAuth();
+  const [calculatedPrice, setCalculatedPrice] = useState("");
+  const paystackWebViewRef = useRef();
 
   const getWasteTypes = () => {
     getDocuments("waste-types")
@@ -53,9 +57,7 @@ const RequestPickup = ({ navigation }) => {
         console.log("====================================");
       });
   };
-  console.log("====================================");
-  console.log(user.uid);
-  console.log("====================================");
+
   const getWasteSizes = () => {
     getDocuments("size-bands")
       .then((res) => {
@@ -102,9 +104,6 @@ const RequestPickup = ({ navigation }) => {
 
   const pickImage = async () => {
     ImagePicker.requestCameraPermissionsAsync().then(async (res) => {
-      console.log("====================================");
-      console.log(res);
-      console.log("====================================");
       if (!res.granted) {
         Alert.alert("Error", "WE nee");
       } else {
@@ -173,44 +172,56 @@ const RequestPickup = ({ navigation }) => {
     return Object.keys(errors).length === 0;
   };
 
-  const onSubmit = () => {
-    if (validateForm()) {
-      setIsLoading(true);
-      const docId = `${user.uid || user.id}_${new Date().getTime()}`;
-      setDocument("requests", docId, {
-        type: selectedWasteType,
-        weight: selectedWasteWeight,
-        size: selectedWasteSize,
-        status: "initiated",
-        message,
-        images,
-        profile: user.profile,
-        user: user.uid || user.id,
-        created_on: serverTimestamp(),
-      })
-        .then((res) => {
-          Alert.alert(
-            "Success",
-            "Request Successfully created",
-            [
-              {
-                text: "Okay",
-                onPress: () => {
-                  // Perform the desired action when "Okay" is pressed
-                  navigation.goBack();
-                },
+  const onSubmit = (ref) => {
+    setIsLoading(true);
+    const docId = `${user.uid || user.id}_${new Date().getTime()}`;
+    setDocument("requests", docId, {
+      type: selectedWasteType,
+      weight: selectedWasteWeight,
+      size: selectedWasteSize,
+      status: "initiated",
+      message,
+      images,
+      profile: user.profile,
+      user: user.uid || user.id,
+      created_on: serverTimestamp(),
+      paymentRef: { ...ref, amount: calculatedPrice },
+    })
+      .then((res) => {
+        Alert.alert(
+          "Success",
+          "Request Successfully created",
+          [
+            {
+              text: "Okay",
+              onPress: () => {
+                // Perform the desired action when "Okay" is pressed
+                navigation.goBack();
               },
-            ],
-            { cancelable: false }
-          );
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      Alert.alert("Validation Error", "Please fill in all required fields.");
-    }
+            },
+          ],
+          { cancelable: false }
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
+
+  const lat = user.profile.userDetails.location.location.lat;
+  const lng = user.profile.userDetails.location.location.lng;
+
+  const distance = haversine(lat, lng);
+
+  useEffect(() => {
+    const price = calculatePrice(
+      distance,
+      selectedWasteType,
+      selectedWasteWeight,
+      selectedWasteSize
+    );
+    setCalculatedPrice(price);
+  }, [distance, selectedWasteSize, selectedWasteType, selectedWasteWeight]);
 
   return (
     <View className="flex-1">
@@ -348,11 +359,53 @@ const RequestPickup = ({ navigation }) => {
             <Text className="text-red-800 text-xs">{formErrors.images}</Text>
           )}
         </View>
+        {calculatedPrice !== null && (
+          <View style={{ marginTop: 10 }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Estimated Price: ₦
+              {Number(calculatedPrice).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
+          </View>
+        )}
       </KeyboardAwareScrollView>
+      <Paystack
+        paystackKey="pk_test_0e6fd99d781ecf44970c4b19ad5259904e6c4844"
+        billingEmail="oluwaniyiropo11@gmail.com"
+        amount={calculatedPrice}
+        onCancel={(e) => {
+          // handle response here
+          console.log("Errror making Payment", e);
+        }}
+        channels={["bank", "card", "ussd"]}
+        onSuccess={(res) => {
+          // handle response here
+          console.log("Successfully Paid", res);
+          onSubmit(res.data);
+        }}
+        ref={paystackWebViewRef}
+      />
       <View className="mb-5 px-5">
         <FlatBtn
-          title="Send Request"
-          onPress={onSubmit}
+          title={`Proceed to pay ₦${Number(calculatedPrice).toLocaleString(
+            undefined,
+            {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }
+          )}`}
+          onPress={() => {
+            if (validateForm()) {
+              paystackWebViewRef.current.startTransaction();
+            } else {
+              Alert.alert(
+                "Validation Error",
+                "Please fill in all required fields."
+              );
+            }
+          }}
           isLoading={isLoading}
         />
       </View>

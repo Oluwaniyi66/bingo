@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useState } from "react";
@@ -19,11 +20,16 @@ const CustomInput = ({
   error,
   keyboardType,
   secureTextEntry,
+  pressable = false,
+  onPress = () => {},
   ...rest
 }) => {
   const [passwordInput, setPasswordInput] = useState(secureTextEntry);
   return (
     <View className="my-3">
+      {pressable && (
+        <TouchableOpacity style={styles.pressable} onPress={onPress} />
+      )}
       <Text
         className="font-medium text-base text-green-950 mb-2"
         style={{ fontSize: moderateScale(15) }}
@@ -65,5 +71,11 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(8),
     fontSize: moderateScale(16),
     backgroundColor: "#fff",
+  },
+  pressable: {
+    zIndex: 10,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
   },
 });

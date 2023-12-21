@@ -5,6 +5,7 @@ import { SCREENS } from "./screens";
 import AvailableRequests from "../screens/collector/AvailableRequests";
 import PickedRequests from "../screens/collector/PickedRequests";
 import RequestInfoScreen from "../screens/collector/RequestInfoScreen";
+import CompletedRequests from "../screens/collector/CompletedRequests";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,10 @@ const CollectorNavigator = () => {
       <Stack.Screen
         name={SCREENS.CollectorTracking}
         component={RequestInfoScreen}
+      />
+      <Stack.Screen
+        name={SCREENS.CollectorCompleted}
+        component={CompletedRequests}
       />
     </Stack.Navigator>
   );

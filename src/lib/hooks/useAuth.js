@@ -19,6 +19,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
+import { FB_IOS_CLIENT_ID, FB_ANDROID_CLIENT_ID } from "@env";
 
 const AuthContext = createContext({});
 
@@ -28,10 +29,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "267109392898-8ul7abiio1395l0ga2e52bgp435o8r5g.apps.googleusercontent.com",
-    iosClientId:
-      "267109392898-gv35n3knvsiomhdl53n0lh1jjdk5pebv.apps.googleusercontent.com",
+    androidClientId: FB_ANDROID_CLIENT_ID,
+    iosClientId: FB_IOS_CLIENT_ID,
   });
 
   useEffect(() => {

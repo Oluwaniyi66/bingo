@@ -57,7 +57,7 @@ const AvailableRequests = ({ navigation }) => {
       <PageHeader title="View all requests" />
       <View className="px-5 flex-1">
         <FlatList
-          data={requests}
+          data={requests.reverse()}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => {
             return (
@@ -72,9 +72,22 @@ const AvailableRequests = ({ navigation }) => {
                 className="border-green-900 px-3 py-4 my-2 rounded-xl flex-row"
               >
                 <View style={styles.content}>
-                  <Text style={styles.title} className="text-green-950">
-                    {item.type}
-                  </Text>
+                  <View className="flex-row justify-between items-center">
+                    <Text style={styles.title} className="text-green-950">
+                      {item.type}
+                    </Text>
+                    <Text style={styles.amt} className="text-green-950">
+                      {item?.paymentRef?.amount
+                        ? `₦${Number(item?.paymentRef?.amount).toLocaleString(
+                            undefined,
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }
+                          )}`
+                        : ""}
+                    </Text>
+                  </View>
                   <View className="flex-row justify-between items-center">
                     <View className="my-2">
                       <Text style={styles.tags} className="text-green-950">

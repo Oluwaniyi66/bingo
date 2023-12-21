@@ -72,9 +72,22 @@ const ViewRequests = ({ navigation }) => {
                 className="border-green-900 px-3 py-4 my-2 rounded-xl flex-row"
               >
                 <View style={styles.content}>
-                  <Text style={styles.title} className="text-green-950">
-                    {item.type}
-                  </Text>
+                  <View className="flex-row justify-between items-center">
+                    <Text style={styles.title} className="text-green-950">
+                      {item.type}
+                    </Text>
+                    <Text style={styles.amt} className="text-green-950">
+                      {item?.paymentRef?.amount
+                        ? `₦${Number(item?.paymentRef?.amount).toLocaleString(
+                            undefined,
+                            {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            }
+                          )}`
+                        : ""}
+                    </Text>
+                  </View>
                   <View className="flex-row justify-between items-center">
                     <Text style={styles.tags} className="text-green-950">
                       {item.weight} kg
@@ -162,6 +175,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: moderateScale(18),
     fontWeight: "700",
+  },
+  amt: {
+    fontSize: moderateScale(14),
+    fontWeight: "500",
   },
   tags: {
     fontSize: moderateScale(12),

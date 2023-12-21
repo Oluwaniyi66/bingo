@@ -6,6 +6,7 @@ import { responsiveFontSize } from "react-native-responsive-dimensions";
 import FlatBtn from "../../components/button/FlatBtn";
 import {
   getDocuments,
+  setDocument,
   subscribeToDocumentSnapshot,
   updateDocument,
 } from "../../api/apiService";
@@ -22,11 +23,7 @@ const RequestInfoScreen = ({ route, navigation }) => {
   const [selectedStatus, setSelectedStatus] = useState(request?.status);
   const [isLoading, setIsLoading] = useState(false);
   const [statusList, setStatusList] = useState([]);
-
-  console.log("====================================");
-  console.log(user?.profile);
-  console.log(requestData?.status);
-  console.log("====================================");
+  const [paymentInfo, setpaymentInfo] = useState({});
 
   const getStatuses = () => {
     getDocuments("status")
@@ -106,7 +103,39 @@ const RequestInfoScreen = ({ route, navigation }) => {
   useEffect(() => {
     getStatuses();
     getRequestInfo();
+    getPaymentInfo();
   }, []);
+
+  const requestForPayment = () => {
+    setIsLoading(true);
+    setDocument("payment-requests", requestData.id, {
+      request: requestData,
+      status: "requested",
+    })
+      .then((res) => {
+        alert(
+          "Payment Successfully requested. Please wait for the admin to contact you"
+        );
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  const getPaymentInfo = () => {
+    subscribeToDocumentSnapshot("payment-requests", request.id, (data) => {
+      if (data) {
+        // Handle the updated data
+        setpaymentInfo(data);
+        console.log(data);
+      } else {
+        // Handle the case when the document does not exist
+        console.log("Document does not exist. (payment)", data);
+      }
+    });
+  };
 
   return (
     <View className="flex-1">
@@ -169,6 +198,7 @@ const RequestInfoScreen = ({ route, navigation }) => {
               autoScroll
               // listMode="MODAL"
               modalTitle="Select status"
+              disabled={selectedStatus === "request completed"}
             />
             {/* {formErrors.wasteType && ( */}
             {/* <Text className="text-red-800 text-xs">{formErrors.wasteType}</Text> */}
@@ -176,6 +206,19 @@ const RequestInfoScreen = ({ route, navigation }) => {
           </View>
         )}
       </View>
+      {selectedStatus === "request completed" && (
+        <View className="px-5">
+          <FlatBtn
+            title={
+              paymentInfo.status
+                ? `Payment ${paymentInfo.status}`
+                : "Request Payment"
+            }
+            onPress={requestForPayment}
+            disabled={paymentInfo.status !== "rejected"}
+          />
+        </View>
+      )}
       <Text
         className="text-green-950 font-bold text-center my-4 underline underline-offset-4"
         style={{ fontSize: moderateScale(20) }}
@@ -195,6 +238,28 @@ const RequestInfoScreen = ({ route, navigation }) => {
             style={{ fontSize: moderateScale(16) }}
           >
             {requestData?.type}
+          </Text>
+        </View>
+        <View className="flex-row justify-between my-2">
+          <Text
+            className="text-green-800 font-semibold"
+            style={{ fontSize: moderateScale(16) }}
+          >
+            Amount Paid:
+          </Text>
+          <Text
+            className="text-green-950 font-bold"
+            style={{ fontSize: moderateScale(16) }}
+          >
+            {requestData?.paymentRef?.amount
+              ? `₦${Number(requestData?.paymentRef?.amount).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )}`
+              : "--"}
           </Text>
         </View>
         <View className="flex-row justify-between my-2">

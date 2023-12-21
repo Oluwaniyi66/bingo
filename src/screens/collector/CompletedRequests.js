@@ -19,7 +19,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { horizontalScale, moderateScale } from "../../lib/utils";
 import { useFocusEffect } from "@react-navigation/native";
 
-const PickedRequests = ({ navigation }) => {
+const CompletedRequests = ({ navigation }) => {
   const { user } = useAuth();
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,11 +28,10 @@ const PickedRequests = ({ navigation }) => {
   const getRequests = () => {
     getDocuments("requests")
       .then((res) => {
-        console.log("RES", res);
         const myRequests = res.filter((req) => {
           return (
             req?.requestData?.acceptedBy?.uid === (user.uid || user.id) &&
-            req?.status !== "request completed"
+            req?.status === "request completed"
           );
         });
         setRequests(myRequests);
@@ -61,7 +60,7 @@ const PickedRequests = ({ navigation }) => {
   };
   return (
     <View className="flex-1">
-      <PageHeader title="My Picked Requests" />
+      <PageHeader title="My Completed Requests" />
       <View className="px-5 flex-1">
         <FlatList
           data={requests}
@@ -174,7 +173,7 @@ const PickedRequests = ({ navigation }) => {
   );
 };
 
-export default PickedRequests;
+export default CompletedRequests;
 
 const styles = StyleSheet.create({
   card: {

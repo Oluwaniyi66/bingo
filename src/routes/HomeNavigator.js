@@ -10,6 +10,7 @@ import CustomerNavigator from "./CustomerNavigator";
 import CollectorNavigator from "./CollectorNavigator";
 import Settings from "../screens/shared/Settings";
 import Support from "../screens/shared/Support";
+import AddressScreen from "../screens/shared/AddressScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +39,6 @@ const HomeNavigator = () => {
       <Stack.Screen
         name={SCREENS.stacks.Customer}
         component={CustomerNavigator}
-        
       />
       <Stack.Screen
         name={SCREENS.stacks.Collector}
@@ -46,6 +46,7 @@ const HomeNavigator = () => {
       />
       <Stack.Screen name={SCREENS.Settings} component={Settings} />
       <Stack.Screen name={SCREENS.Support} component={Support} />
+      <Stack.Screen name={SCREENS.Address} component={AddressScreen} />
     </Stack.Navigator>
   );
 };

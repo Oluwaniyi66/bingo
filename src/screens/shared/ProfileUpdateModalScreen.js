@@ -26,6 +26,7 @@ import LoadingComponent from "../../components/loaders/LoadingComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { responsiveFontSize } from "react-native-responsive-dimensions";
 import { MaterialIcons } from "@expo/vector-icons";
+import AddressModal from "../../components/modals/AddressModal";
 
 const ProfileUpdateModalScreen = ({ navigation }) => {
   const { user } = useAuth();
@@ -54,6 +55,12 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
     imageUrl: user?.profile?.imageUrl || "",
   });
   const [formErrors, setFormErrors] = useState({});
+  const [openCustomerAddressModal, setOpenCustomerAddressModal] =
+    useState(false);
+  const [openCollectorAddressModal, setOpenCollectorAddressModal] =
+    useState(false);
+  const [collectorAddress, setCollectorAddress] = useState({});
+  const [customerAddress, setCustomerAddress] = useState({});
 
   const handleInputChange = (fieldName, value, section = "") => {
     if (section) {
@@ -111,7 +118,8 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
     // Validate nested fields based on user type
     if (formValues.userType === "user") {
       // Validate home address
-      if (!formValues.userDetails.address.trim()) {
+      // if (!formValues.userDetails.address.trim()) {
+      if (!customerAddress.description) {
         errors.userDetails = {
           ...errors.userDetails,
           address: "Home Address is required",
@@ -140,7 +148,8 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
         };
       }
       // Validate company address
-      if (!formValues.companyDetails.companyAddress.trim()) {
+      // if (!formValues.companyDetails.companyAddress.trim()) {
+      if (!collectorAddress.description) {
         errors.companyDetails = {
           ...errors.companyDetails,
           companyAddress: "Company Address is required",
@@ -392,11 +401,17 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
             <View>
               <CustomInput
                 label="Home Address"
-                value={formValues.userDetails.address}
-                onChangeText={(text) =>
-                  handleInputChange("address", text, "userDetails")
+                value={
+                  customerAddress.description || formValues.userDetails.address
+                }
+                editable={false}
+                onChangeText={
+                  (text) => {}
+                  // handleInputChange("address", text, "userDetails")
                 }
                 error={formErrors?.userDetails?.address}
+                onPress={() => setOpenCustomerAddressModal(true)}
+                pressable
               />
               <CustomInput
                 label="State"
@@ -426,12 +441,19 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
                 }
                 error={formErrors?.companyDetails?.companyName}
               />
+
               <CustomInput
                 label="Company Address"
-                value={formValues.companyDetails.companyAddress}
-                onChangeText={(text) =>
-                  handleInputChange("companyAddress", text, "companyDetails")
+                value={
+                  collectorAddress.description ||
+                  formValues.companyDetails.companyAddress
                 }
+                // onChangeText={(text) =>
+                //   handleInputChange("companyAddress", text, "companyDetails")
+                // }
+                onPress={() => setOpenCollectorAddressModal(true)}
+                pressable
+                editable={false}
                 error={formErrors?.companyDetails?.companyAddress}
               />
               <CustomInput
@@ -501,6 +523,36 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
         </View>
         <View className="h-8" />
       </KeyboardAwareScrollView>
+      <AddressModal
+        openModal={openCollectorAddressModal}
+        closeModal={() => setOpenCollectorAddressModal(false)}
+        setAddress={(item) => {
+          setCollectorAddress(item);
+          setFormValues({
+            ...formValues,
+            companyDetails: {
+              ...formValues.companyDetails,
+              location: item,
+              companyAddress: item.description,
+            },
+          });
+        }}
+      />
+      <AddressModal
+        openModal={openCustomerAddressModal}
+        closeModal={() => setOpenCustomerAddressModal(false)}
+        setAddress={(item) => {
+          setCustomerAddress(item);
+          setFormValues({
+            ...formValues,
+            userDetails: {
+              ...formValues.userDetails,
+              location: item,
+              address: item.description,
+            },
+          });
+        }}
+      />
     </View>
   );
 };

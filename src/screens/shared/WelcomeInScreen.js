@@ -15,7 +15,6 @@ const WelcomeInScreen = ({ navigation }) => {
   const [loadingText, setLoadingText] = useState("Welcome");
 
   useFocusEffect(() => {
-    console.log(user?.uid, user?.id);
     const unsubscribe = subscribeToDocumentSnapshot(
       "users",
       user?.uid || user?.id,

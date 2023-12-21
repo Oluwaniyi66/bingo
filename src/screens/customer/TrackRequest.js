@@ -123,9 +123,22 @@ const TrackRequest = ({ navigation, route }) => {
               className="border-green-900 px-3 py-4 my-2 rounded-xl flex-row"
             >
               <View style={styles.content}>
-                <Text style={styles.title} className="text-green-950">
-                  {request.type}
-                </Text>
+                <View className="flex-row justify-between items-center">
+                  <Text style={styles.title} className="text-green-950">
+                    {request.type}
+                  </Text>
+                  <Text style={styles.amt} className="text-green-950">
+                    {request?.paymentRef?.amount
+                      ? `₦${Number(request?.paymentRef?.amount).toLocaleString(
+                          undefined,
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}`
+                      : ""}
+                  </Text>
+                </View>
                 <View className="flex-row justify-between requests-center">
                   <Text style={styles.tags} className="text-green-950">
                     {request.weight} kg

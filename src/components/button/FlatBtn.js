@@ -17,7 +17,10 @@ const FlatBtn = ({
   return (
     <TouchableOpacity
       className="w-full bg-green-700 p-4 items-center flex-row justify-center"
-      style={[styles.btnContainer, { backgroundColor: color }]}
+      style={[
+        styles.btnContainer,
+        { backgroundColor: disabled ? `${color}70` : color },
+      ]}
       onPress={onPress}
       disabled={disabled || isLoading}
       activeOpacity={0.7}

@@ -17,6 +17,8 @@ export const SCREENS = {
   CollectorRequest: "Collector_request",
   CollectorViewRequests: "Collector_view_requests",
   CollectorTracking: "Collector_tracking",
+  CollectorCompleted: "Collector_Completeds",
   Support: "Support",
   Settings: "Settings",
+  Address: "Address",
 };

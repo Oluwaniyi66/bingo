@@ -17,7 +17,10 @@ const Settings = ({ navigation }) => {
         />
         <SettingsCard title="About Bingo" />
         <SettingsCard title="Terms and Conditions" />
-        <SettingsCard title="Contact Us" />
+        <SettingsCard
+          title="Contact Us"
+          onPress={() => navigation.navigate(SCREENS.Support)}
+        />
         <SettingsCard title="Logout" onPress={logout} />
       </ScrollView>
     </View>
