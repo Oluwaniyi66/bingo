@@ -118,8 +118,8 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
     // Validate nested fields based on user type
     if (formValues.userType === "user") {
       // Validate home address
-      // if (!formValues.userDetails.address.trim()) {
-      if (!customerAddress.description) {
+      if (!formValues.userDetails.address.trim()) {
+        // if (!customerAddress.description) {
         errors.userDetails = {
           ...errors.userDetails,
           address: "Home Address is required",
@@ -148,8 +148,8 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
         };
       }
       // Validate company address
-      // if (!formValues.companyDetails.companyAddress.trim()) {
-      if (!collectorAddress.description) {
+      if (!formValues.companyDetails.companyAddress.trim()) {
+        // if (!collectorAddress.description) {
         errors.companyDetails = {
           ...errors.companyDetails,
           companyAddress: "Company Address is required",
@@ -404,14 +404,13 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
                 value={
                   customerAddress.description || formValues.userDetails.address
                 }
-                editable={false}
-                onChangeText={
-                  (text) => {}
-                  // handleInputChange("address", text, "userDetails")
-                }
+                // editable={false}
+                onChangeText={(text) => {
+                  handleInputChange("address", text, "userDetails");
+                }}
                 error={formErrors?.userDetails?.address}
-                onPress={() => setOpenCustomerAddressModal(true)}
-                pressable
+                // onPress={() => setOpenCustomerAddressModal(true)}
+                // pressable
               />
               <CustomInput
                 label="State"
@@ -448,12 +447,12 @@ const ProfileUpdateModalScreen = ({ navigation }) => {
                   collectorAddress.description ||
                   formValues.companyDetails.companyAddress
                 }
-                // onChangeText={(text) =>
-                //   handleInputChange("companyAddress", text, "companyDetails")
-                // }
-                onPress={() => setOpenCollectorAddressModal(true)}
-                pressable
-                editable={false}
+                onChangeText={(text) =>
+                  handleInputChange("companyAddress", text, "companyDetails")
+                }
+                // onPress={() => setOpenCollectorAddressModal(true)}
+                // pressable
+                // editable={false}
                 error={formErrors?.companyDetails?.companyAddress}
               />
               <CustomInput

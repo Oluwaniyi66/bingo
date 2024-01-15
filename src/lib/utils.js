@@ -46,13 +46,18 @@ export const haversine = (lat1, lon1, lat2 = 6.4706566, lon2 = 3.3789836) => {
   return distance;
 };
 
+function getRandomNumber() {
+  const randomNumber = Math.random() * (220 - 190) + 190;
+  return Number(randomNumber.toFixed(2));
+}
+
 export const calculatePrice = (
   distance,
   wasteType,
   weightCategory,
   sizeCategory
 ) => {
-  let distancePrice = distance * 50;
+  let distancePrice = distance ? distance * 50 : getRandomNumber();
   let wastePrice;
   let weightPrice;
   let sizePrice;

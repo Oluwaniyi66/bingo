@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Modal from "react-native-modal";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { verticalScale } from "../../lib/utils";
 
 const AddressModal = ({ setAddress, openModal = true, closeModal }) => {
   return (
@@ -26,12 +27,13 @@ const AddressModal = ({ setAddress, openModal = true, closeModal }) => {
               flex: 0,
               borderColor: "#052e16",
               borderRadius: 12,
+              height: verticalScale(50),
             },
           }}
           fetchDetails={true}
           query={{
             // key: process.env.FB_API_KEY,
-            key: "AIzaSyC_5hDyvo0dHqvopWI_k2KcDkeV4LWpF_k",
+            key: "AAIzaSyAoKYV6NmVZ4jt2uZ_pjNtzRHF085_eUrc",
             language: "en",
           }}
           nearbyPlacesAPI="GooglePlacesSearch"

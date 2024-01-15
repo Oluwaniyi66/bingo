@@ -80,17 +80,17 @@ const LoginScreen = ({ navigation }) => {
       <LoadingComponent isLoading={loading} />
 
       <KeyboardAwareScrollView className="px-5">
-        <View className="my-5">
+        {/* <View className="my-5">
           <FlatBtn
             icon={<AntDesign name="googleplus" size={24} color="#fbbc05" />}
             title="Sign in with Google"
             color="#4285f4"
             onPress={() => promptAsync()}
           />
-        </View>
-        <Text className="my-3 text-center text-green-900 font-bold text-lg">
+        </View> */}
+        {/* <Text className="my-3 text-center text-green-900 font-bold text-lg">
           OR
-        </Text>
+        </Text> */}
         <View>
           <CustomInput
             label="Email"
@@ -113,7 +113,7 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               onPress={() => navigation.navigate(SCREENS.ForgotPass)}
             >
-              <Text className="text-gray-700 font-medium text-sm">
+              <Text className="text-gray-700 font-medium text-sm py-1">
                 Forgot/Reset Password
               </Text>
             </TouchableOpacity>

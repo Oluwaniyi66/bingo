@@ -65,7 +65,7 @@ const RegisterScreen = ({ navigation }) => {
       <AuthHeader title="Register" />
       <LoadingComponent isLoading={loading} />
       <KeyboardAwareScrollView className="px-5">
-        <View className="my-6">
+        {/* <View className="my-6">
           <FlatBtn
             icon={<AntDesign name="googleplus" size={24} color="#fbbc05" />}
             title="Sign up with Google"
@@ -74,7 +74,7 @@ const RegisterScreen = ({ navigation }) => {
         </View>
         <Text className="my-5 text-center text-green-900 font-bold text-lg">
           OR
-        </Text>
+        </Text> */}
         <View>
           <CustomInput
             label="Email"

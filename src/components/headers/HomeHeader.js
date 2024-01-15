@@ -101,7 +101,7 @@ const HomeHeader = ({ showLogoutAlert }) => {
       <View className=" items-end px-3 pt-5">
         <TouchableOpacity
           onPress={showLogoutAlert}
-          className="absolute right-2 bottom-1 bg-transparent"
+          className="absolute right-1 bottom-0.5 bg-transparent p-1"
         >
           <AntDesign name="logout" size={moderateScale(32)} color="#450a0a" />
         </TouchableOpacity>

@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.bingo.app</string>
+          <string>com.bingowaste.app</string>
         </array>
       </dict>
     </array>

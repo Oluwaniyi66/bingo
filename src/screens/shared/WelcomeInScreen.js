@@ -63,7 +63,7 @@ const WelcomeInScreen = ({ navigation }) => {
     <View className="flex-1  bg-green-50">
       <SafeAreaView className="flex-1 px-6">
         <View className=" items-end px-3 pt-5">
-          <TouchableOpacity onPress={logout}>
+          <TouchableOpacity onPress={logout} className="p-2">
             <AntDesign name="logout" size={32} color="#450a0a" />
           </TouchableOpacity>
         </View>

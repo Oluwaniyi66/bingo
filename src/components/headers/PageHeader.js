@@ -25,7 +25,10 @@ const PageHeader = ({ title = "Page Title", backPress }) => {
       className="bg-green-900 h-32 px-5 flex-row items-center "
       style={{ height: verticalScale(125), paddingTop: verticalScale(70) }}
     >
-      <TouchableOpacity onPress={onBackPress}>
+      <TouchableOpacity
+        onPress={onBackPress}
+        style={{ padding: moderateScale(5) }}
+      >
         <Ionicons
           name="chevron-back-circle-outline"
           size={moderateScale(45)}

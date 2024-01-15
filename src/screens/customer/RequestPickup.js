@@ -16,7 +16,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import CustomInput from "../../components/inputs/CustomInput";
 import { serverTimestamp } from "firebase/firestore";
-import { calculatePrice, haversine } from "../../lib/utils";
+import {
+  calculatePrice,
+  haversine,
+  moderateScale,
+  verticalScale,
+} from "../../lib/utils";
 import { Paystack } from "react-native-paystack-webview";
 
 const RequestPickup = ({ navigation }) => {
@@ -208,8 +213,12 @@ const RequestPickup = ({ navigation }) => {
       });
   };
 
-  const lat = user.profile.userDetails.location.location.lat;
-  const lng = user.profile.userDetails.location.location.lng;
+  const lat = user?.profile?.userDetails?.location?.location?.lat;
+  const lng = user?.profile?.userDetails?.location?.location?.lng;
+
+  console.log("====================================");
+  console.log(user?.profile);
+  console.log("====================================");
 
   const distance = haversine(lat, lng);
 
@@ -251,6 +260,8 @@ const RequestPickup = ({ navigation }) => {
               fontSize: responsiveFontSize(1.8),
               borderColor: "#15803d",
             }}
+            closeIconContainerStyle={{ padding: moderateScale(5) }}
+            listItemContainerStyle={{ height: verticalScale(48) }}
             placeholder="select the type of waste"
             autoScroll
             listMode="MODAL"
@@ -280,6 +291,8 @@ const RequestPickup = ({ navigation }) => {
               fontSize: responsiveFontSize(1.8),
               borderColor: "#15803d",
             }}
+            closeIconContainerStyle={{ padding: moderateScale(5) }}
+            listItemContainerStyle={{ height: verticalScale(48) }}
             placeholder="select the approximate weight of waste"
             autoScroll
             listMode="MODAL"
@@ -311,6 +324,8 @@ const RequestPickup = ({ navigation }) => {
               fontSize: responsiveFontSize(1.8),
               borderColor: "#15803d",
             }}
+            closeIconContainerStyle={{ padding: moderateScale(5) }}
+            listItemContainerStyle={{ height: verticalScale(48) }}
             placeholder="select the approximate size of waste"
             autoScroll
             listMode="MODAL"
